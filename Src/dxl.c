@@ -8,7 +8,6 @@
   *          functionalities of the dynamixel servos:
   *            + xxxxxxxxxxxxx
   *            + xxxxxxxxxxxxx
-  *            + xxxxxxxxxxxxx
   ******************************************************************************
 
   ==============================================================================
@@ -146,7 +145,7 @@ void dxl_hal_set_timeout(uint8_t NumRcvByte)
 void RxD_DXL_Interrupt(void)
 {
    /* NO entiendo para que sirve el Buffer si unicamente leo el Rx despues de enviar
-      un Tx!! nunca voy a poder leer los bytes antiguos, unicamente el último Tx */
+      un Tx!! nunca voy a poder leer los bytes antiguos, unicamente el Ãºltimo Tx */
     uint8_t temp;
     if (USART_GetITStatus(USART1, USART_IT_RXNE)!=RESET)
     {
@@ -164,7 +163,7 @@ void RxD_DXL_Interrupt(void)
         gbpDxlBuffer[gbDxlWrite] = temp;
         gbDxlWrite = 0; //Ring Buffer
     }
-    // Para perder el mínimo de packets si writing es mucho + rapido que el reading
+    // Para perder el mÃ­nimo de packets si writing es mucho + rapido que el reading
     if (gbDxlRead==gbDxlWrite)
         gbDxlRead++;
     if (gbDxlRead>(DXL_BUFFER_LENGTH-1))
@@ -298,7 +297,7 @@ uint8_t STM32F1_dxl_initialize(uint32_t baudrate) //Half-Duplex !!
 
 
 	/* ===== CUSTOM CONFIGURATION ===== */
-   /* Enables USART1´s Half Duplex communication */
+   /* Enables USART1Â´s Half Duplex communication */
    USART_HalfDuplexCmd(USART1, ENABLE);
 
    /* Enable USART1 peripheral */
@@ -342,7 +341,7 @@ void dxl_tx_packet(void)
    uint8_t checksum = 0;
 
    // NO hay buffer para Tx, habra que implementar en el main() un while{}
-   // para no enviar hasta que el UART1 bus esté libre
+   // para no enviar hasta que el UART1 bus estÃ© libre
    if(giBusUsing==1) //a communication is already ongoing
      return;
 
@@ -356,7 +355,7 @@ void dxl_tx_packet(void)
      giBusUsing = 0;
      return;
    }
-   //no veo lógico comprobar esto cada vez....
+   //no veo lÃ³gico comprobar esto cada vez....
    if(   (gbInstructionPacket[DXL_PKT_INST] != INST_PING)
      && (gbInstructionPacket[DXL_PKT_INST] != INST_READ_DATA)
      && (gbInstructionPacket[DXL_PKT_INST] != INST_WRITE_DATA)
